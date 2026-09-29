@@ -1,3 +1,6 @@
+import os
+import sys
+
 from strands import Agent
 from strands.models import OpenAIModel
 from tool import get_current_time
@@ -9,10 +12,18 @@ agent = Agent(
     tools=[get_current_time],
 )
 
-prompt="""
-"What is the current time in New York?"
-"""
+# prompt="""
+# "What is the current time in New York?"
+# """
 
 # Send a message to the agent
-response = agent(prompt)
-# print(response)
+# response = agent(prompt)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        prompt = " ".join(sys.argv[1:])
+    else:
+        prompt = "What is the current time in New York?"
+
+    response = agent(prompt)
