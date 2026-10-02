@@ -17,6 +17,7 @@ COPY --from=builder /root/.local /root/.local
 
 ENV PATH=/root/.local/bin:$PATH
 
-COPY ./strands/agent.py agent.py
+COPY ./strands/ .
 
-CMD [ "python", "agent.py" ]
+ENTRYPOINT ["python", "agent.py"]
+# CMD [ "python", "agent.py" ]
