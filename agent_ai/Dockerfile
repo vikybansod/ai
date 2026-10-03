@@ -19,5 +19,8 @@ ENV PATH=/root/.local/bin:$PATH
 
 COPY ./strands/ .
 
-ENTRYPOINT ["python", "agent.py"]
+EXPOSE 8080
+
+# ENTRYPOINT ["python", "agent.py"]
 # CMD [ "python", "agent.py" ]
+CMD [ "python", "server.py" ]
