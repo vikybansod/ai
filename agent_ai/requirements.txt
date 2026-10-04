@@ -4,3 +4,5 @@ geopy
 timezonefinder
 fastapi
 uvicorn
+chainlit>=1.3
+httpx

@@ -1,0 +1,6 @@
+agent_ai/.chainlit/**
+agent_ai/ui/.chainlit/**
+agent_ai/ui/__pycache__/**
+agent_ai/strands/__pycache__/**
+agent_ai/.venv/**
+agent_ai/.venv313/**
