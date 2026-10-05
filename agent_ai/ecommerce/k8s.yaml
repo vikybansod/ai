@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ecommerce-dynamodb-data
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-dynamodb
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: ecommerce-dynamodb
+  template:
+    metadata:
+      labels:
+        app: ecommerce-dynamodb
+    spec:
+      containers:
+        - name: dynamodb
+          image: amazon/dynamodb-local:latest
+          args: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "/data"]
+          securityContext:
+            runAsUser: 0
+          ports:
+            - name: dynamodb
+              containerPort: 8000
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          readinessProbe:
+            tcpSocket:
+              port: dynamodb
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 1Gi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: ecommerce-dynamodb-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dynamodb
+spec:
+  selector:
+    app: ecommerce-dynamodb
+  ports:
+    - name: dynamodb
+      port: 8000
+      targetPort: dynamodb
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ecommerce-seed
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 300
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: seed
+          image: ecommerce-seed:1.0.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DYNAMODB_ENDPOINT_URL
+              value: http://dynamodb:8000
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              memory: 256Mi

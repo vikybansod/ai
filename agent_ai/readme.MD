@@ -1,3 +1,14 @@
+# Local DynamoDB with seeded data
+
+docker build -t ecommerce-seed:1.0.0 agent_ai/ecommerce
+kubectl apply -f agent_ai/ecommerce/k8s.yaml
+kubectl wait --for=condition=complete job/ecommerce-seed --timeout=300s
+kubectl logs job/ecommerce-seed
+
+# Local ecommerce sample database
+
+See [ecommerce/README.md](ecommerce/README.md) for DynamoDB Local with sample products, customers, and orders on your MacBook.
+
 # To run agent in local
 source .venv313/bin/activate
 python server.py

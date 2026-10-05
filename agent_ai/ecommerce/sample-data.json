@@ -1,0 +1,238 @@
+{
+  "products": [
+    {
+      "product_id": "P001",
+      "name": "Wireless Headphones",
+      "category": "Electronics",
+      "price": 79.99,
+      "currency": "USD",
+      "stock": 25
+    },
+    {
+      "product_id": "P002",
+      "name": "Mechanical Keyboard",
+      "category": "Electronics",
+      "price": 89.99,
+      "currency": "USD",
+      "stock": 18
+    },
+    {
+      "product_id": "P003",
+      "name": "USB-C Hub",
+      "category": "Electronics",
+      "price": 34.99,
+      "currency": "USD",
+      "stock": 40
+    },
+    {
+      "product_id": "P004",
+      "name": "Running Shoes",
+      "category": "Footwear",
+      "price": 64.99,
+      "currency": "USD",
+      "stock": 30
+    },
+    {
+      "product_id": "P005",
+      "name": "Cotton T-Shirt",
+      "category": "Clothing",
+      "price": 19.99,
+      "currency": "USD",
+      "stock": 100
+    },
+    {
+      "product_id": "P006",
+      "name": "Backpack",
+      "category": "Accessories",
+      "price": 49.99,
+      "currency": "USD",
+      "stock": 22
+    },
+    {
+      "product_id": "P007",
+      "name": "Coffee Mug",
+      "category": "Home",
+      "price": 12.99,
+      "currency": "USD",
+      "stock": 60
+    },
+    {
+      "product_id": "P008",
+      "name": "Desk Lamp",
+      "category": "Home",
+      "price": 29.99,
+      "currency": "USD",
+      "stock": 0
+    },
+    {
+      "product_id": "P009",
+      "name": "Yoga Mat",
+      "category": "Fitness",
+      "price": 24.99,
+      "currency": "USD",
+      "stock": 35
+    },
+    {
+      "product_id": "P010",
+      "name": "Water Bottle",
+      "category": "Fitness",
+      "price": 14.99,
+      "currency": "USD",
+      "stock": 50
+    }
+  ],
+  "customers": [
+    {
+      "customer_id": "C001",
+      "name": "Asha Sharma",
+      "email": "customer1@example.com",
+      "city": "Mumbai"
+    },
+    {
+      "customer_id": "C002",
+      "name": "Rohan Patel",
+      "email": "customer2@example.com",
+      "city": "Pune"
+    },
+    {
+      "customer_id": "C003",
+      "name": "Maya Rao",
+      "email": "customer3@example.com",
+      "city": "Bengaluru"
+    },
+    {
+      "customer_id": "C004",
+      "name": "Kabir Shah",
+      "email": "customer4@example.com",
+      "city": "Delhi"
+    },
+    {
+      "customer_id": "C005",
+      "name": "Neha Singh",
+      "email": "customer5@example.com",
+      "city": "Chennai"
+    }
+  ],
+  "orders": [
+    {
+      "order_id": "O001",
+      "customer_id": "C001",
+      "status": "delivered",
+      "created_at": "2026-10-01T10:00:00Z",
+      "items": [
+        {
+          "product_id": "P001",
+          "quantity": 2,
+          "unit_price": 79.99
+        }
+      ],
+      "total": 159.98,
+      "currency": "USD"
+    },
+    {
+      "order_id": "O002",
+      "customer_id": "C002",
+      "status": "shipped",
+      "created_at": "2026-10-02T10:00:00Z",
+      "items": [
+        {
+          "product_id": "P002",
+          "quantity": 1,
+          "unit_price": 89.99
+        }
+      ],
+      "total": 89.99,
+      "currency": "USD"
+    },
+    {
+      "order_id": "O003",
+      "customer_id": "C003",
+      "status": "processing",
+      "created_at": "2026-10-03T10:00:00Z",
+      "items": [
+        {
+          "product_id": "P003",
+          "quantity": 2,
+          "unit_price": 34.99
+        }
+      ],
+      "total": 69.98,
+      "currency": "USD"
+    },
+    {
+      "order_id": "O004",
+      "customer_id": "C004",
+      "status": "cancelled",
+      "created_at": "2026-10-04T10:00:00Z",
+      "items": [
+        {
+          "product_id": "P004",
+          "quantity": 1,
+          "unit_price": 64.99
+        }
+      ],
+      "total": 64.99,
+      "currency": "USD"
+    },
+    {
+      "order_id": "O005",
+      "customer_id": "C005",
+      "status": "delivered",
+      "created_at": "2026-10-01T10:00:00Z",
+      "items": [
+        {
+          "product_id": "P005",
+          "quantity": 2,
+          "unit_price": 19.99
+        }
+      ],
+      "total": 39.98,
+      "currency": "USD"
+    },
+    {
+      "order_id": "O006",
+      "customer_id": "C001",
+      "status": "processing",
+      "created_at": "2026-10-02T10:00:00Z",
+      "items": [
+        {
+          "product_id": "P006",
+          "quantity": 1,
+          "unit_price": 49.99
+        }
+      ],
+      "total": 49.99,
+      "currency": "USD"
+    },
+    {
+      "order_id": "O007",
+      "customer_id": "C002",
+      "status": "shipped",
+      "created_at": "2026-10-03T10:00:00Z",
+      "items": [
+        {
+          "product_id": "P007",
+          "quantity": 2,
+          "unit_price": 12.99
+        }
+      ],
+      "total": 25.98,
+      "currency": "USD"
+    },
+    {
+      "order_id": "O008",
+      "customer_id": "C003",
+      "status": "delivered",
+      "created_at": "2026-10-04T10:00:00Z",
+      "items": [
+        {
+          "product_id": "P008",
+          "quantity": 1,
+          "unit_price": 29.99
+        }
+      ],
+      "total": 29.99,
+      "currency": "USD"
+    }
+  ]
+}
