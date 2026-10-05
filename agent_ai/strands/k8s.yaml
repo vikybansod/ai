@@ -25,13 +25,19 @@ spec:
     spec:
       containers:
         - name: strands-agent
-          image: strands_agent:1.0.4
+          image: strands_agent:1.0.5
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 8080
               protocol: TCP
           env:
+            - name: DYNAMODB_ENDPOINT_URL
+              value: http://dynamodb:8000
+            - name: ORDERS_TABLE
+              value: ecommerce_orders
+            - name: AWS_REGION
+              value: us-east-1
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:

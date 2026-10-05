@@ -10,6 +10,18 @@ kubectl logs job/ecommerce-seed
 See [ecommerce/README.md](ecommerce/README.md) for DynamoDB Local with sample products, customers, and orders on your MacBook.
 
 # To run agent in local
+The agent supports order lookup (try `Get order details for O001`). For local Python execution, DynamoDB defaults to `http://localhost:8001`; use the ecommerce port-forward when it runs in Kubernetes. The defaults are `ORDERS_TABLE=ecommerce_orders` and `AWS_REGION=us-east-1`.
+
+To deploy the updated agent to Docker Desktop Kubernetes, run from `agent_ai`:
+
+```sh
+docker build -t strands_agent:1.0.5 strands
+envsubst '${OPENAI_API_KEY}' < strands/k8s.yaml | kubectl apply -f -
+kubectl rollout status deployment/strands-agent
+```
+
+Deploy it in the same namespace as the ecommerce database, or update `DYNAMODB_ENDPOINT_URL` in `strands/k8s.yaml` to the database Service's namespace-qualified address. Load the new image into the cluster if its image store is separate from Docker's. The tool uses dummy DynamoDB credentials for this local test setup.
+
 source .venv313/bin/activate
 python server.py
 

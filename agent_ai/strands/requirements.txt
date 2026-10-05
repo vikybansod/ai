@@ -4,3 +4,4 @@ geopy
 timezonefinder
 fastapi
 uvicorn
+boto3>=1.35,<2

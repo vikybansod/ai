@@ -3,13 +3,18 @@ import sys
 
 from strands import Agent
 from strands.models import OpenAIModel
-from tool import get_current_time
+from tool import get_current_time, lookup_order
 
 # Initialize your agent
 agent = Agent(
     model=OpenAIModel(model_id="gpt-4o"),
-    system_prompt="You are a helpful assistant that can do simple calculation get the location and tell the current time for that location.",
-    tools=[get_current_time],
+    system_prompt=(
+        "You are a helpful assistant that can do simple calculations, tell the current "
+        "time for a city, and look up ecommerce orders. Use lookup_order for order "
+        "details. Ask for an order ID if it is missing. Report only the details "
+        "returned by the tool; do not invent shipping or tracking information."
+    ),
+    tools=[get_current_time, lookup_order],
 )
 
 # prompt="""
@@ -24,6 +29,6 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         prompt = " ".join(sys.argv[1:])
     else:
-        prompt = "What is the current time in New York?"
+        prompt = "What is the order detail of O002"
 
     response = agent(prompt)
