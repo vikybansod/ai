@@ -1,0 +1,6 @@
+strands-agents[openai]
+strands-agents-tools
+geopy
+timezonefinder
+fastapi
+uvicorn
