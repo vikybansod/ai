@@ -9,8 +9,6 @@ RUN pip install --no-cache-dir --user -r requirements.txt
 
 FROM python:3.13-slim AS runner
 
-ARG OPENAI_API_KEY
-
 WORKDIR /agent
 
 COPY --from=builder /root/.local /root/.local

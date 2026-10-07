@@ -9,14 +9,18 @@ kubectl logs job/ecommerce-seed
 
 See [ecommerce/README.md](ecommerce/README.md) for DynamoDB Local with sample products, customers, and orders on your MacBook.
 
+# Envoy AI Gateway
+
+See [gateway/README.md](gateway/README.md) for Helm installation, gateway-owned OpenAI credentials, and local port-forwarding. The agent uses `AI_GATEWAY_URL` and no longer needs `OPENAI_API_KEY`.
+
 # To run agent in local
 The agent supports order lookup (try `Get order details for O001`). For local Python execution, DynamoDB defaults to `http://localhost:8001`; use the ecommerce port-forward when it runs in Kubernetes. The defaults are `ORDERS_TABLE=ecommerce_orders` and `AWS_REGION=us-east-1`.
 
 To deploy the updated agent to Docker Desktop Kubernetes, run from `agent_ai`:
 
 ```sh
-docker build -t strands_agent:1.0.5 strands
-envsubst '${OPENAI_API_KEY}' < strands/k8s.yaml | kubectl apply -f -
+docker build -t strands_agent:1.0.6 strands
+kubectl apply -f strands/k8s.yaml
 kubectl rollout status deployment/strands-agent
 ```
 
@@ -27,11 +31,11 @@ python server.py
 
 //or
 
-docker run -it --rm -p 8080:8080 -e OPENAI_API_KEY=${OPENAI_API_KEY} strands_agent:1.0.4
+docker run -it --rm -p 8080:8080 -e AI_GATEWAY_URL=http://host.docker.internal:8081/v1 strands_agent:1.0.6
 
 //or
 
-envsubst '${OPENAI_API_KEY}' < strands/k8s.yaml | kubectl apply -f -
+kubectl apply -f strands/k8s.yaml
 
 # To run Chainlit UI from local
 export CHAINLIT_AUTH_SECRET="$(python -c 'import secrets; print(secrets.token_hex(32))')"
