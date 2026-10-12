@@ -1,12 +1,10 @@
 strands-agents[openai,otel]
 strands-agents-tools
-geopy
-timezonefinder
 fastapi
 uvicorn
-boto3>=1.35,<2
 langfuse
 opentelemetry-distro
 opentelemetry-exporter-otlp-proto-http
 opentelemetry-instrumentation-httpx
 opentelemetry-instrumentation-fastapi
+mcp==1.30.0

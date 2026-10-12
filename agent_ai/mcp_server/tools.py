@@ -1,4 +1,3 @@
-from strands import tool
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from geopy.geocoders import Nominatim
@@ -25,7 +24,6 @@ def _json_value(value):
     return value
 
 
-@tool
 def lookup_order(order_id: str) -> dict:
     """Look up an ecommerce order by ID, including items, total and status.
 
@@ -64,7 +62,6 @@ def lookup_order(order_id: str) -> dict:
         return {"error": f"Order {normalized_id} not found. Please verify the order ID and try again."}
     return _json_value(item)
 
-@tool
 def get_current_time(city: str) -> str:
     """Get the current time in a given city.
     Args:

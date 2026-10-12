@@ -4,8 +4,8 @@ import sys
 from strands import Agent
 from strands.models import OpenAIModel
 from strands.telemetry import StrandsTelemetry
-
-from tool import get_current_time, lookup_order
+from strands.tools.mcp import MCPClient
+from mcp.client.streamable_http import streamablehttp_client
 
 # Export native agent, model and tool spans through the collector when configured.
 # Avoid a second Langfuse SDK exporter sending duplicate traces.
@@ -13,7 +13,13 @@ if os.environ.get("OTEL_EXPORTER_OTLP_ENDPOINT"):
     StrandsTelemetry().setup_otlp_exporter()
 
 
-# Initialize your agent
+mcp_client = MCPClient(
+    lambda: streamablehttp_client(
+        os.environ.get("MCP_SERVER_URL", "http://localhost:8082/mcp"),
+    )
+)
+
+# Discover and invoke tools remotely; Strands manages the MCP connection.
 agent = Agent(
     model=OpenAIModel(
         model_id="gpt-4o",
@@ -30,7 +36,7 @@ agent = Agent(
         "details. Ask for an order ID if it is missing. Report only the details "
         "returned by the tool; do not invent shipping or tracking information."
     ),
-    tools=[get_current_time, lookup_order],
+    tools=[mcp_client],
 )
 
 # prompt="""
@@ -47,4 +53,7 @@ if __name__ == "__main__":
     else:
         prompt = "What is the order detail of O002"
 
-    response = agent(prompt)
+    try:
+        response = agent(prompt)
+    finally:
+        mcp_client.stop()

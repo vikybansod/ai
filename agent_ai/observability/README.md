@@ -19,7 +19,7 @@ helm upgrade --install langfuse langfuse/langfuse --version 2.1.4 \
   -n langfuse -f agent_ai/observability/langfuse-values.yaml --wait --timeout 10m
 helm upgrade --install otel-collector open-telemetry/opentelemetry-collector --version 0.175.1 \
   -n observability -f agent_ai/observability/collector-values.yaml --wait --timeout 5m
-docker build -t strands_agent:1.0.8 agent_ai/strands
+docker build -t strands_agent:1.0.9 agent_ai/strands
 kubectl apply -f agent_ai/strands/k8s.yaml
 kubectl rollout status deployment/strands-agent --timeout=180s
 ```

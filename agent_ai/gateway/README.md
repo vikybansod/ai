@@ -38,7 +38,7 @@ Only `gpt-4o` is routed. To change the model, update the model ID in `strands/ag
 ## Deploy the agent
 
 ```sh
-docker build -t strands_agent:1.0.8 agent_ai/strands
+docker build -t strands_agent:1.0.9 agent_ai/strands
 kubectl apply -f agent_ai/strands/k8s.yaml
 kubectl rollout status deployment/strands-agent --timeout=120s
 ```

@@ -1,3 +1,7 @@
+# MCP tool server
+
+See [mcp_server/README.md](mcp_server/README.md). Deploy the MCP server before the agent; tool implementations and DynamoDB configuration now live there.
+
 # Langfuse and OpenTelemetry
 
 See [observability/README.md](observability/README.md) for installation, local login, and trace verification.
@@ -18,24 +22,24 @@ See [ecommerce/README.md](ecommerce/README.md) for DynamoDB Local with sample pr
 See [gateway/README.md](gateway/README.md) for Helm installation, gateway-owned OpenAI credentials, and local port-forwarding. The agent uses `AI_GATEWAY_URL` and no longer needs `OPENAI_API_KEY`.
 
 # To run agent in local
-The agent supports order lookup (try `Get order details for O001`). For local Python execution, DynamoDB defaults to `http://localhost:8001`; use the ecommerce port-forward when it runs in Kubernetes. The defaults are `ORDERS_TABLE=ecommerce_orders` and `AWS_REGION=us-east-1`.
+The agent supports order lookup (try `Get order details for O001`). For local Python execution, the agent connects to `MCP_SERVER_URL=http://localhost:8082/mcp`. The MCP server connects to DynamoDB; its defaults are `DYNAMODB_ENDPOINT_URL=http://localhost:8001`, `ORDERS_TABLE=ecommerce_orders`, and `AWS_REGION=us-east-1`.
 
 To deploy the updated agent to Docker Desktop Kubernetes, run from `agent_ai`:
 
 ```sh
-docker build -t strands_agent:1.0.8 strands
+docker build -t strands_agent:1.0.9 strands
 kubectl apply -f strands/k8s.yaml
 kubectl rollout status deployment/strands-agent
 ```
 
-Deploy it in the same namespace as the ecommerce database, or update `DYNAMODB_ENDPOINT_URL` in `strands/k8s.yaml` to the database Service's namespace-qualified address. Load the new image into the cluster if its image store is separate from Docker's. The tool uses dummy DynamoDB credentials for this local test setup.
+Deploy it in the same namespace as the ecommerce database, or update `DYNAMODB_ENDPOINT_URL` in `mcp_server/k8s.yaml` to the database Service's namespace-qualified address. Load the new image into the cluster if its image store is separate from Docker's. The tool uses dummy DynamoDB credentials for this local test setup.
 
 source .venv313/bin/activate
 python server.py
 
 //or
 
-docker run -it --rm -p 8080:8080 -e AI_GATEWAY_URL=http://host.docker.internal:8081/v1 strands_agent:1.0.8
+docker run -it --rm -p 8080:8080 -e AI_GATEWAY_URL=http://host.docker.internal:8081/v1 -e MCP_SERVER_URL=http://host.docker.internal:8082/mcp strands_agent:1.0.9
 
 //or
 

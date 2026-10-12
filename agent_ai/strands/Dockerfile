@@ -15,7 +15,7 @@ COPY --from=builder /root/.local /root/.local
 
 ENV PATH=/root/.local/bin:$PATH
 
-COPY agent.py server.py tool.py ./
+COPY agent.py server.py ./
 
 EXPOSE 8080
 

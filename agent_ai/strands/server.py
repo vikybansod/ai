@@ -5,6 +5,8 @@ HTTP wrapper so that Chatlit UI can POST queries to this host
 import os
 import sys
 import json
+import asyncio
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
@@ -13,7 +15,7 @@ from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
 from pydantic import BaseModel
 import uvicorn
 
-from agent import agent
+from agent import agent, mcp_client
 
 def sse_events_for(event: dict) -> list[str]:
     """Map one Strands stream_async event to zero-or-more SSE lines.
@@ -69,7 +71,15 @@ class ChatRequest(BaseModel):
     session_id: str | None = None
     actor_id: str | None = None
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app):
+    try:
+        yield
+    finally:
+        await asyncio.to_thread(mcp_client.stop)
+
+
+app = FastAPI(lifespan=lifespan)
 if os.environ.get("OTEL_EXPORTER_OTLP_ENDPOINT"):
     FastAPIInstrumentor.instrument_app(
         app, excluded_urls="healthz", exclude_spans=["send", "receive"],
