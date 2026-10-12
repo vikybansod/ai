@@ -3,7 +3,15 @@ import sys
 
 from strands import Agent
 from strands.models import OpenAIModel
+from strands.telemetry import StrandsTelemetry
+
 from tool import get_current_time, lookup_order
+
+# Export native agent, model and tool spans through the collector when configured.
+# Avoid a second Langfuse SDK exporter sending duplicate traces.
+if os.environ.get("OTEL_EXPORTER_OTLP_ENDPOINT"):
+    StrandsTelemetry().setup_otlp_exporter()
+
 
 # Initialize your agent
 agent = Agent(

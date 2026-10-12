@@ -8,6 +8,8 @@ import json
 
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
 from pydantic import BaseModel
 import uvicorn
 
@@ -68,6 +70,11 @@ class ChatRequest(BaseModel):
     actor_id: str | None = None
 
 app = FastAPI()
+if os.environ.get("OTEL_EXPORTER_OTLP_ENDPOINT"):
+    FastAPIInstrumentor.instrument_app(
+        app, excluded_urls="healthz", exclude_spans=["send", "receive"],
+    )
+    HTTPXClientInstrumentor().instrument()
 
 
 @app.get("/healthz")

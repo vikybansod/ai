@@ -1,0 +1,55 @@
+langfuse:
+  web:
+    deployment:
+      strategy:
+        type: Recreate
+    image:
+      repository: langfuse/langfuse
+  worker:
+    deployment:
+      strategy:
+        type: Recreate
+    image:
+      repository: langfuse/langfuse-worker
+  nextauth:
+    url: http://localhost:3000
+  features:
+    telemetryEnabled: false
+  additionalEnvFrom:
+    - secretRef:
+        name: langfuse-bootstrap
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+postgresql:
+  storage:
+    requestedSize: 5Gi
+redis:
+  dataStorage:
+    requestedSize: 1Gi
+clickhouse:
+  cluster:
+    replicas: 1
+    storage:
+      size: 10Gi
+    resources:
+      requests:
+        cpu: 250m
+        memory: 2Gi
+      limits:
+        memory: 4Gi
+  keeper:
+    replicas: 1
+    storage:
+      size: 1Gi
+s3:
+  allInOne:
+    data:
+      size: 5Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 1Gi

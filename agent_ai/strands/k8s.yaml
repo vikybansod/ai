@@ -16,13 +16,25 @@ spec:
     spec:
       containers:
         - name: strands-agent
-          image: strands_agent:1.0.6
+          image: strands_agent:1.0.8
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 8080
               protocol: TCP
           env:
+            - name: OTEL_SERVICE_NAME
+              value: strands-agent
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://otel-collector.observability.svc.cluster.local:4318
+            - name: OTEL_EXPORTER_OTLP_PROTOCOL
+              value: http/protobuf
+            - name: OTEL_TRACES_SAMPLER
+              value: always_on
+            - name: OTEL_METRICS_EXPORTER
+              value: none
+            - name: OTEL_LOGS_EXPORTER
+              value: none
             - name: DYNAMODB_ENDPOINT_URL
               value: http://dynamodb:8000
             - name: ORDERS_TABLE

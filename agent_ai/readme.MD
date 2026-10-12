@@ -1,3 +1,7 @@
+# Langfuse and OpenTelemetry
+
+See [observability/README.md](observability/README.md) for installation, local login, and trace verification.
+
 # Local DynamoDB with seeded data
 
 docker build -t ecommerce-seed:1.0.0 agent_ai/ecommerce
@@ -19,7 +23,7 @@ The agent supports order lookup (try `Get order details for O001`). For local Py
 To deploy the updated agent to Docker Desktop Kubernetes, run from `agent_ai`:
 
 ```sh
-docker build -t strands_agent:1.0.6 strands
+docker build -t strands_agent:1.0.8 strands
 kubectl apply -f strands/k8s.yaml
 kubectl rollout status deployment/strands-agent
 ```
@@ -31,7 +35,7 @@ python server.py
 
 //or
 
-docker run -it --rm -p 8080:8080 -e AI_GATEWAY_URL=http://host.docker.internal:8081/v1 strands_agent:1.0.6
+docker run -it --rm -p 8080:8080 -e AI_GATEWAY_URL=http://host.docker.internal:8081/v1 strands_agent:1.0.8
 
 //or
 
